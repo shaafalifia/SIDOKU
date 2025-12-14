@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiDoKu - HR Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section id="login-page">
+        <div class="login-card">
+            <div class="logo-area">
+                <i class="fas fa-leaf"></i>
+                <h2>SiDoKu</h2>
+                <p>SIDO MUNCUL HC SYSTEM</p>
+            </div>
+            <div class="login-header">
+                <h3>Sugeng Rawuh</h3>
+                <p>Silakan masuk ke portal karyawan.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); handleLogin();">
+                <div class="form-group">
+                    <label>Email Perusahaan</label>
+                    <div class="input-wrapper">
+                        <i class="far fa-envelope"></i>
+                        <input type="email" id="emailInput" placeholder="nama@sidomuncul.id" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kata Sandi</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="passwordInput" placeholder="••••••••" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Masuk Portal</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="main-app" class="hidden">
+        
+        <nav class="app-nav">
+            <div class="nav-brand">
+                <i class="fas fa-leaf"></i>
+                <span>SiDoKu</span>
+            </div>
+            <div class="nav-links">
+                <div class="nav-item active" id="desk-home" onclick="switchTab('home')">
+                    <div class="nav-icon"><i class="fas fa-home"></i></div><span class="nav-text">Beranda</span>
+                </div>
+                <div class="nav-item" id="desk-absen" onclick="switchTab('absensi')">
+                    <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div><span class="nav-text">Absensi</span>
+                </div>
+                <div class="nav-item" id="desk-inbox" onclick="switchTab('inbox')">
+                    <div class="nav-icon"><i class="fas fa-inbox"></i></div><span class="nav-text">Inbox</span>
+                </div>
+                <div class="nav-item" id="desk-profile" onclick="switchTab('profile')">
+                    <div class="nav-icon"><i class="fas fa-user"></i></div><span class="nav-text">Akun</span>
+                </div>
+            </div>
+            <div class="nav-footer desktop-only" onclick="location.reload()">
+                <div class="nav-item logout">
+                    <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div><span class="nav-text">Keluar</span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="app-content">
+            
+            <header class="top-header">
+                <div class="user-greeting">
+                    <p>Halo, Semangat Pagi!</p>
+                    <h2 id="page-title">User</h2>
+                </div>
+                <div class="header-actions">
+                    <div class="mini-profile"><div class="avatar-small"></div></div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                
+                <div id="home-view" class="view-section fade-in">
+                    
+                    <div class="announcement-banner">
+                        <i class="fas fa-info-circle"></i>
+                        <span><strong>Info:</strong> Update data NPWP sebelum 25 Des 2025.</span>
+                        <i class="fas fa-times close-banner" onclick="this.parentElement.style.display='none'"></i>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="col-main">
+                            <div class="attendance-card-mini">
+                                <div class="att-header">
+                                    <h5>Shift Hari Ini</h5>
+                                    <span class="shift-badge">Shift 1</span>
+                                </div>
+                                <h1>07:00 - 15:00</h1>
+                                <p class="curr-date" id="dashboard-date"><i class="far fa-calendar"></i> Hari Ini</p>
+                                <div class="clock-actions-row">
+                                    <button class="clock-btn btn-in" id="btn-clock-in" onclick="clockIn(this)">
+                                        <i class="fas fa-sign-in-alt"></i> Masuk
+                                    </button>
+                                    <button class="clock-btn btn-out" id="btn-clock-out" onclick="clockOut(this)">
+                                        <i class="fas fa-sign-out-alt"></i> Pulang
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="salary-card">
+                                <div class="salary-header">
+                                    <span>Estimasi Gaji Bulan Ini</span>
+                                    <i class="fas fa-eye-slash" onclick="toggleSalary(this)" style="cursor:pointer;"></i>
+                                </div>
+                                <div class="salary-amount blur-text" id="salary-text">Rp 8.450.000</div>
+                                <div class="salary-footer">
+                                    <span onclick="switchTab('slip-view')"><i class="fas fa-chart-line"></i> Bonus Q4: Cair</span>
+                                </div>
+                            </div>
+
+                            <h4 class="section-title">Layanan Karyawan</h4>
+                            <div class="menu-grid">
+                                <div class="menu-item" onclick="switchTab('absensi')"><div class="icon-box icon-history"><i class="fas fa-history"></i></div><span>Riwayat</span></div>
+                                <div class="menu-item" onclick="switchTab('kalender-view')"><div class="icon-box icon-cal"><i class="far fa-calendar-alt"></i></div><span>Kalender</span></div>
+                                <div class="menu-item" onclick="switchTab('reimburse-view')"><div class="icon-box icon-reimburse"><i class="fas fa-receipt"></i></div><span>Reimburse</span></div>
+                                <div class="menu-item" onclick="switchTab('slip-view')"><div class="icon-box icon-gaji"><i class="fas fa-file-invoice-dollar"></i></div><span>Payroll</span></div>
+                                <div class="menu-item" onclick="switchTab('cuti-view')"><div class="icon-box icon-cuti"><i class="fas fa-umbrella-beach"></i></div><span>Cuti</span></div>
+                                <div class="menu-item" onclick="switchTab('lembur-view')"><div class="icon-box icon-lembur"><i class="fas fa-clock"></i></div><span>Lembur</span></div>
+                                <div class="menu-item" onclick="switchTab('klinik-view')"><div class="icon-box icon-sehat"><i class="fas fa-user-md"></i></div><span>Klinik</span></div>
+                                <div class="menu-item" onclick="switchTab('absen-view')"><div class="icon-box icon-finger"><i class="fas fa-fingerprint"></i></div><span>Absen</span></div>
+                            </div>
+
+                            <h4 class="section-title">Papan Pengumuman</h4>
+                            <div class="news-feed">
+                                <div class="news-item">
+                                    <div class="news-date"><span class="nd-day">12</span><span class="nd-month">DES</span></div>
+                                    <div class="news-content"><h5>Pendaftaran Mudik Bareng 2026</h5><p>Segera daftarkan keluarga Anda via HR Portal.</p></div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-date" style="background: #fff3e0; color: #f57c00;"><span class="nd-day">15</span><span class="nd-month">DES</span></div>
+                                    <div class="news-content"><h5>Maintenance Server</h5><p>Sistem down sementara pada jam 12:00 - 13:00.</p></div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-date" style="background: #e8f5e9; color: #2e7d32;"><span class="nd-day">20</span><span class="nd-month">DES</span></div>
+                                    <div class="news-content"><h5>Gathering Akhir Tahun</h5><p>Wajib hadir untuk seluruh staff produksi.</p></div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-side">
+                            <h4 class="section-title" style="margin-top:0;">Anggota Tim</h4>
+                            <div class="team-section" onclick="openTeamModal()">
+                                <div class="team-scroll">
+                                    <div class="avatar-circle" style="background-image: url('https://ui-avatars.com/api/?name=Shafa&background=random');"></div>
+                                    <div class="avatar-circle" style="background-image: url('https://ui-avatars.com/api/?name=Tafta&background=random');"></div>
+                                    <div class="avatar-circle" style="background-image: url('https://ui-avatars.com/api/?name=Rayisha&background=random');"></div>
+                                    <div class="avatar-circle" style="background-image: url('https://ui-avatars.com/api/?name=Kayla&background=random');"></div>
+                                    <div class="avatar-circle" style="background-image: url('https://ui-avatars.com/api/?name=Salsabila&background=random');"></div>
+                                    <div class="avatar-more"><i class="fas fa-chevron-right"></i></div>
+                                </div>
+                            </div>
+
+                            <div class="herbal-card" style="margin-top:20px;">
+                                <div class="herbal-content">
+                                    <div class="herbal-text"><h5>Produk Herbal</h5><p>Periode: Des 2025</p><span class="status-avail">Tersedia</span></div>
+                                    <img src="https://cdn1.katadata.co.id/media/images/thumb/2017/08/09/2017_08_09-19_42_38_905da475899ebac941049728b56f4503_620x413_thumb.jpg" alt="Produk" style="width: 50px; opacity: 0.9;">
+                                </div>
+                                <button class="redeem-btn" onclick="openModal('modal-qr')"><i class="fas fa-qrcode"></i> Tampilkan QR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="absensi-view" class="view-section hidden fade-in">
+                    <div class="page-header-simple"><h3>Statistik Kehadiran (Desember)</h3></div>
+                    <div class="stats-grid-4">
+                        <div class="stat-box"><span class="lbl">Hadir</span><span class="val" id="val-hadir" style="color:var(--primary-green)">0</span></div>
+                        <div class="stat-box"><span class="lbl">Terlambat</span><span class="val text-danger" id="val-late">0</span></div>
+                        <div class="stat-box"><span class="lbl">Cuti/Izin</span><span class="val" id="val-cuti">0</span></div>
+                        <div class="stat-box"><span class="lbl">Alpha</span><span class="val" id="val-alpha">0</span></div>
+                    </div>
+                    <h4 class="section-title">Riwayat Absensi (Bulan Ini)</h4>
+                    <div class="attendance-table-container">
+                        <table class="attendance-table">
+                            <thead><tr><th>Tanggal</th><th>Masuk</th><th>Keluar</th><th>Status</th></tr></thead>
+                            <tbody id="attendance-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="inbox-view" class="view-section hidden fade-in">
+                    <div class="page-header-simple"><h3 id="inbox-title">Inbox</h3></div>
+                    <div class="news-feed" id="inbox-list"></div>
+                </div>
+
+                <div id="profile-view" class="view-section hidden fade-in">
+                    <div class="profile-layout">
+                        <div class="profile-card-main refined-profile">
+                            <div class="profile-bg-header"></div>
+                            <div class="profile-content-body">
+                                <div class="avatar-large-container">
+                                    <div class="avatar-large"></div>
+                                    <div class="camera-icon"><i class="fas fa-camera"></i></div>
+                                </div>
+                                <h3 id="profile-name-display">Nama Karyawan</h3>
+                                <p id="job-title-display">Staff</p>
+                                <div class="badges-row">
+                                    <span class="badge-role">Karyawan Tetap</span>
+                                    <span class="badge-dept">Produksi</span>
+                                </div>
+                                <div class="profile-stats">
+                                    <div><b>2.5 Th</b><span>Masa Kerja</span></div>
+                                    <div><b>12</b><span>Sisa Cuti</span></div>
+                                    <div><b>A</b><span>Grade</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-menu-container">
+                            <div class="list-group-label">Data Karyawan</div>
+                            <div class="list-item" onclick="switchTab('personal-view')"><div class="list-left"><div class="list-icon"><i class="far fa-user"></i></div><span>Info Personal & Kontak</span></div><i class="fas fa-chevron-right"></i></div>
+                            <div class="list-item" onclick="switchTab('job-detail-view')"><div class="list-left"><div class="list-icon"><i class="far fa-id-card"></i></div><span>Detail Pekerjaan</span></div><i class="fas fa-chevron-right"></i></div>
+                            <div class="list-item" onclick="switchTab('edu-exp-view')"><div class="list-left"><div class="list-icon"><i class="fas fa-graduation-cap"></i></div><span>Pendidikan & Pengalaman</span></div><i class="fas fa-chevron-right"></i></div>
+                            
+                            <div class="list-group-label">Keuangan & Akun</div>
+                            <div class="list-item" onclick="switchTab('slip-view')"><div class="list-left"><div class="list-icon"><i class="fas fa-wallet"></i></div><span>Payroll</span></div><i class="fas fa-chevron-right"></i></div>
+                            <div class="list-item"><div class="list-left"><div class="list-icon"><i class="fas fa-lock"></i></div><span>Ubah Kata Sandi</span></div><i class="fas fa-chevron-right"></i></div>
+                            
+                            <div class="list-item mobile-only" onclick="location.reload()" style="border-top: 10px solid #f8f9fa;">
+                                <div class="list-left"><div class="list-icon" style="background: #ffebee; color: #d32f2f;"><i class="fas fa-sign-out-alt"></i></div><span style="color: #d32f2f; font-weight:600;">Keluar Aplikasi</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="personal-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('profile')"></i><h3>Info Personal</h3></div>
+                    <div class="profile-detail-card">
+                        <div class="detail-row">
+                            <label>Nama Lengkap</label>
+                            <h4 id="detail-name">User</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Jabatan</label>
+                            <h4 id="detail-job">Supervisor</h4>
+                        </div>
+                         <div class="detail-row">
+                            <label>Nomor Telepon</label>
+                            <h4>0812-3456-7890</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Email Perusahaan</label>
+                            <h4 id="detail-email">user@sidomuncul.id</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Alamat Domisili</label>
+                            <h4>Jl. Soekarno Hatta No. 28, Bergas, Semarang, Jawa Tengah</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="job-detail-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('profile')"></i><h3>Detail Pekerjaan</h3></div>
+                    <div class="profile-detail-card">
+                        <div class="detail-header-green">
+                            <h4 id="job-detail-title">Supervisor Produksi</h4>
+                            <span>Departemen Operasional</span>
+                        </div>
+                        <div class="job-desc-list" id="job-desc-content">
+                            </div>
+                    </div>
+                </div>
+
+                <div id="edu-exp-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('profile')"></i><h3>Riwayat Hidup</h3></div>
+                    
+                    <h4 class="section-title">Pendidikan Terakhir</h4>
+                    <div class="timeline-container" id="edu-content">
+                         </div>
+
+                    <h4 class="section-title">Pengalaman Kerja</h4>
+                    <div class="timeline-container" id="exp-content">
+                         </div>
+                </div>
+
+                <div id="cuti-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Pengajuan Cuti</h3></div>
+                    <div class="saldo-box-green">
+                        <div class="sb-top">Saldo Cuti Tahunan</div>
+                        <div class="sb-body"><div>Tersedia</div><div class="sb-val"><span id="leave-balance-display">10</span> Hari</div></div>
+                    </div>
+                    <form onsubmit="event.preventDefault(); submitCuti();">
+                        <div class="form-row">
+                            <div class="form-group half"><label>Dari Tanggal</label><input type="date" id="cuti-start" class="input-field-modal" required></div>
+                            <div class="form-group half"><label>Sampai Tanggal</label><input type="date" id="cuti-end" class="input-field-modal" required></div>
+                        </div>
+                        <div class="form-group"><label>Keterangan</label><textarea id="cuti-reason" class="input-field-modal" rows="3" required></textarea></div>
+                        <button type="submit" class="btn-primary">Ajukan Cuti</button>
+                    </form>
+                </div>
+
+                <div id="reimburse-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Reimbursement</h3></div>
+                    <div class="saldo-box-simple"><i class="fas fa-receipt"></i><p>Belum ada pengajuan reimburse bulan ini.</p></div>
+                    <form onsubmit="event.preventDefault(); submitReimburse();">
+                        <div class="form-group">
+                            <label>Jenis Klaim</label>
+                            <select class="input-field-modal" id="reimburse-type" onchange="checkReimburseType()">
+                                <option value="Rawat Jalan">Rawat Jalan</option>
+                                <option value="Kacamata">Kacamata</option>
+                                <option value="Dinas Luar">Dinas Luar</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group hidden" id="other-reimburse-div">
+                            <label>Detail Keterangan Klaim</label>
+                            <input type="text" id="reimburse-other-input" class="input-field-modal" placeholder="Contoh: Parkir Client...">
+                        </div>
+                        <div class="form-group"><label>Nominal (Rp)</label><input type="number" class="input-field-modal" placeholder="Contoh: 150000" required></div>
+                        <div class="form-group"><label>Bukti / Nota</label><div class="file-upload-box"><input type="file" id="file-upload" hidden onchange="updateFileName(this)"><label for="file-upload" class="upload-label" id="upload-label-text"><i class="fas fa-camera"></i><span>Ambil Foto / Upload File</span></label></div></div>
+                        <button type="submit" class="btn-primary">Ajukan Reimburse</button>
+                    </form>
+                </div>
+
+                <div id="absen-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Mesin Absensi</h3></div>
+                    <div class="attendance-card-mini full-width">
+                        <div class="att-header"><h5>Clock In / Out</h5><span class="shift-badge">Shift 1</span></div>
+                        <h1 style="text-align: center; margin: 20px 0; font-size:32px;">07:00 - 15:00</h1>
+                        <p class="curr-date" style="text-align: center;">Hari Ini</p>
+                        <div class="clock-actions-row">
+                            <button class="clock-btn btn-in" id="page-btn-in" onclick="clockIn(this)"><i class="fas fa-sign-in-alt"></i> Masuk</button>
+                            <button class="clock-btn btn-out" id="page-btn-out" onclick="clockOut(this)"><i class="fas fa-sign-out-alt"></i> Pulang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="slip-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Slip Gaji</h3></div>
+                    <div class="slip-container">
+                        <div class="slip-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <label style="font-size: 12px; color: #666;">Pilih Periode:</label>
+                            <select id="slip-period" class="input-field-modal" style="width: auto; display: inline-block; margin-left: 10px;" onchange="updateSlipData()"><option value="dec">Desember 2025</option><option value="nov">November 2025</option></select>
+                        </div>
+                        <div class="slip-details" id="slip-content"><div class="row"><span>Gaji Pokok</span><b>Rp 5.200.000</b></div><div class="row"><span>Tunjangan</span><b>Rp 1.500.000</b></div><div class="row green"><span>Lembur</span><b>Rp 1.750.000</b></div><hr><div class="row total"><span>Total</span><b>Rp 8.450.000</b></div></div>
+                        <button class="btn-primary" onclick="downloadSlip()">Unduh PDF</button>
+                    </div>
+                </div>
+
+                <div id="kalender-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Jadwal Kerja</h3></div>
+                    <div class="list-schedule">
+                        <div class="schedule-item">
+                            <div class="sc-date"><b>12</b><span>JUM</span></div>
+                            <div class="sc-info"><h5>Shift 1 (Pagi)</h5><p>07:00 - 15:00 WIB</p></div>
+                            <span class="sc-status">Masuk</span>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="sc-date"><b>13</b><span>SAB</span></div>
+                            <div class="sc-info"><h5>Shift 1 (Setengah Hari)</h5><p>07:00 - 12:00 WIB</p></div>
+                            <span class="sc-status">Masuk</span>
+                        </div>
+                        <div class="schedule-item red-bg">
+                            <div class="sc-date red"><b>14</b><span>MING</span></div>
+                            <div class="sc-info"><h5>Libur Akhir Pekan</h5><p>Tidak ada shift</p></div>
+                            <span class="sc-status red">OFF</span>
+                        </div>
+                         <div class="schedule-item">
+                            <div class="sc-date"><b>15</b><span>SEN</span></div>
+                            <div class="sc-info"><h5>Shift 1 (Pagi)</h5><p>07:00 - 15:00 WIB</p></div>
+                            <span class="sc-status">Masuk</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="klinik-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Klinik Pabrik</h3></div>
+                    <div class="doctor-card available"><div class="doc-img"><i class="fas fa-user-md"></i></div><div><h5>dr. Budi Santoso</h5><p>● Available (Umum)</p><span class="doc-time">08:00 - 12:00</span></div></div>
+                    <div class="doctor-card busy"><div class="doc-img"><i class="fas fa-user-nurse"></i></div><div><h5>drg. Siti Aminah</h5><p>○ Busy (Gigi)</p><span class="doc-time">13:00 - 16:00</span></div></div>
+                </div>
+
+                <div id="lembur-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Form Lembur</h3></div>
+                    <form onsubmit="event.preventDefault(); submitForm('Lembur');">
+                        <div class="form-group"><label>Tanggal</label><input type="date" class="input-field-modal" required></div>
+                        <div class="form-group"><label>Durasi (Jam)</label><input type="number" class="input-field-modal" placeholder="2" required></div>
+                        <div class="form-group"><label>Alasan</label><textarea class="input-field-modal" rows="2"></textarea></div>
+                        <button type="submit" class="btn-primary">Ajukan Lembur</button>
+                    </form>
+                </div>
+
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" id="nav-home" onclick="switchTab('home', this)"><i class="fas fa-home"></i><span>Beranda</span></div>
+            <div class="nav-item" id="nav-absen" onclick="switchTab('absensi', this)"><i class="fas fa-calendar-alt"></i><span>Absensi</span></div>
+            <div class="nav-item" id="nav-inbox" onclick="switchTab('inbox', this)"><i class="fas fa-inbox"></i><span>Inbox</span></div>
+            <div class="nav-item" id="nav-profile" onclick="switchTab('profile', this)"><i class="fas fa-user"></i><span>Akun</span></div>
+        </nav>
+    </div>
+
+    <div id="modal-team" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-team')">&times;</span>
+            <h3 style="margin-bottom:15px;">Daftar Karyawan</h3>
+            <div id="team-list-container"></div>
+        </div>
+    </div>
+
+    <div id="modal-qr" class="modal hidden">
+        <div class="modal-content center-align">
+            <span class="close-btn" onclick="closeModal('modal-qr')">&times;</span>
+            <h3 style="color: var(--primary-green);">Scan Jatah Jamu dan Herbal</h3>
+            <div class="qr-placeholder"><i class="fas fa-qrcode" style="font-size: 100px; color: #333;"></i></div>
+            <p style="margin-top:10px;">Tunjukkan ke petugas koperasi.</p>
+        </div>
+    </div>
+
+    <div id="modal-success" class="modal hidden">
+        <div class="modal-content center-align" style="background: #fff; padding: 40px 30px;">
+            <div style="width:60px; height:60px; background:#e8f5e9; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+                <i class="fas fa-check" style="font-size:30px; color:var(--primary-green);"></i>
+            </div>
+            <h3 style="margin-bottom:10px;" id="success-title">Berhasil!</h3>
+            <p style="font-size:13px; color:#666; margin-bottom:25px;" id="success-msg">Data telah terkirim.</p>
+            <button class="btn-primary" onclick="closeModal('modal-success'); switchTab('home');">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
