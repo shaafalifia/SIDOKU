@@ -11,6 +11,29 @@ function getTodayDateString() {
     return `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
 }
 
+// Data Pengumuman (Baru)
+const newsData = [
+    {
+        id: 1,
+        title: "Pendaftaran Mudik Bareng 2026",
+        date: "12 Des 2025",
+        content: "<p>Program Mudik Gratis Sido Muncul 2026 kembali hadir! Sebagai bentuk apresiasi kepada seluruh karyawan dan keluarga, perusahaan menyediakan armada bus eksekutif untuk perjalanan mudik ke berbagai kota di Pulau Jawa.</p><br><p><b>Detail Pendaftaran:</b></p><ul><li>Dibuka mulai: 20 Desember 2025</li><li>Lokasi: Ruang HRD (Bu Salsabila)</li><li>Syarat: Membawa FC KK dan KTP</li></ul><br><p>Segera daftarkan diri Anda sebelum kuota penuh!</p>"
+    },
+    {
+        id: 2,
+        title: "Maintenance Server SiDoKu",
+        date: "15 Des 2025",
+        content: "<p>Diberitahukan kepada seluruh karyawan bahwa akan dilakukan pemeliharaan sistem (maintenance) pada aplikasi SiDoKu untuk meningkatkan keamanan dan performa server.</p><br><p><b>Waktu Downtime:</b></p><p>Senin, 15 Desember 2025 pukul 12.00 - 13.00 WIB.</p><br><p>Selama periode tersebut, fitur Clock In/Out dan Pengajuan Cuti tidak dapat diakses. Mohon lakukan absensi sebelum jam tersebut.</p>"
+    },
+    {
+        id: 3,
+        title: "Gathering Akhir Tahun 2025",
+        date: "20 Des 2025",
+        content: "<p>Manajemen mengundang seluruh karyawan Divisi Produksi untuk hadir dalam acara Gathering Akhir Tahun & Syukuran Pencapaian Target 2025.</p><br><p><b>Pelaksanaan:</b></p><ul><li>Hari/Tgl: Sabtu, 27 Desember 2025</li><li>Waktu: 09.00 WIB - Selesai</li><li>Lokasi: Agrowisata Sido Muncul</li><li>Dresscode: Seragam Batik Sido Muncul</li></ul><br><p>Akan ada doorprize menarik dan hiburan musik. Kehadiran bersifat wajib.</p>"
+    }
+];
+
+
 // Data Dummy Absen
 const defaultLogs = [
     { d: '13', m: 'Des', in: '06:55', out: '-', status: 'Hadir', class: 'ontime', timeClass: '' },
@@ -69,6 +92,14 @@ function updateUI(jobTitle, name, email) {
     document.getElementById('detail-name').innerText = name;
     document.getElementById('detail-job').innerText = jobTitle;
     document.getElementById('detail-email').innerText = email;
+
+    // Load Profile Pic jika ada di storage
+    const savedPic = localStorage.getItem('profilePic_' + currentUser);
+    if (savedPic) {
+        document.querySelectorAll('.avatar-large, .avatar-small').forEach(el => {
+            el.style.backgroundImage = `url('${savedPic}')`;
+        });
+    }
 
     // Reset Absen Check daily
     const todayStr = new Date().toDateString();
@@ -138,6 +169,18 @@ function switchTab(viewId, navElement) {
     }
     else if (viewId === 'profile' || targetId === 'personal-view' || targetId === 'job-detail-view' || targetId === 'edu-exp-view') {
         document.querySelectorAll('#nav-profile, #desk-profile').forEach(el => el.classList.add('active'));
+    }
+}
+
+// --- FUNGSI BUKA PENGUMUMAN (BARU) ---
+function openAnnouncement(id) {
+    const news = newsData.find(n => n.id === id);
+    if(news) {
+        document.getElementById('news-detail-title').innerText = news.title;
+        document.getElementById('news-detail-date').innerText = news.date;
+        document.getElementById('news-detail-body').innerHTML = news.content;
+        
+        switchTab('news-detail'); // Switch ke view news detail
     }
 }
 
@@ -530,6 +573,21 @@ function updateFileName(input) {
     }
 }
 
+function updateProfilePic(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Update gambar profil saat ini
+            document.querySelectorAll('.avatar-large, .avatar-small').forEach(el => {
+                el.style.backgroundImage = `url('${e.target.result}')`;
+            });
+            // Simpan ke storage biar gak hilang pas refresh
+            localStorage.setItem('profilePic_' + currentUser, e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 function toggleSalary(icon) {
     const salaryText = document.getElementById('salary-text');
     if (salaryText.classList.contains('blur-text')) {
@@ -546,11 +604,37 @@ function toggleSalary(icon) {
 function updateSlipData() {
     const period = document.getElementById('slip-period').value;
     const content = document.getElementById('slip-content');
+    
+    let gajiPokok, tunjanganTotal, lembur, total;
+    
+    const tTransport = "Rp 600.000";
+    const tMakan = "Rp 500.000";
+    const tKesehatan = "Rp 400.000";
+
     if (period === 'nov') {
-        content.innerHTML = `<div class="row"><span>Gaji Pokok</span><b>Rp 5.200.000</b></div><div class="row"><span>Tunjangan</span><b>Rp 1.500.000</b></div><div class="row green"><span>Lembur</span><b>Rp 1.000.000</b></div><hr><div class="row total"><span>Total</span><b style="color:var(--primary-green);">Rp 7.700.000</b></div>`;
+        gajiPokok = "Rp 5.200.000";
+        tunjanganTotal = "Rp 1.500.000";
+        lembur = "Rp 1.000.000";
+        total = "Rp 7.700.000";
     } else {
-        content.innerHTML = `<div class="row"><span>Gaji Pokok</span><b>Rp 5.200.000</b></div><div class="row"><span>Tunjangan</span><b>Rp 1.500.000</b></div><div class="row green"><span>Lembur</span><b>Rp 1.750.000</b></div><hr><div class="row total"><span>Total</span><b style="color:var(--primary-green);">Rp 8.450.000</b></div>`;
+        gajiPokok = "Rp 5.200.000";
+        tunjanganTotal = "Rp 1.500.000";
+        lembur = "Rp 1.750.000";
+        total = "Rp 8.450.000";
     }
+
+    content.innerHTML = `
+        <div class="row"><span>Gaji Pokok</span><b>${gajiPokok}</b></div>
+        <div class="row"><span>Tunjangan Tetap</span><b>${tunjanganTotal}</b></div>
+        <div class="row sub-row"><span>- Transportasi</span><span>${tTransport}</span></div>
+        <div class="row sub-row"><span>- Uang Makan</span><span>${tMakan}</span></div>
+        <div class="row sub-row"><span>- BPJS Kesehatan</span><span>${tKesehatan}</span></div>
+        <div style="margin-bottom:10px;"></div>
+        
+        <div class="row green"><span>Lembur</span><b>${lembur}</b></div>
+        <hr>
+        <div class="row total"><span>Total Diterima</span><b style="color:var(--primary-green);">${total}</b></div>
+    `;
 }
 
 function openModal(modalId) { document.getElementById(modalId).classList.remove('hidden'); }
