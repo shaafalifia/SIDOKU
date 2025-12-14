@@ -151,6 +151,11 @@
                                     <div class="news-content"><h5>Gathering Akhir Tahun</h5><p>Wajib hadir untuk staff produksi.</p></div>
                                     <i class="fas fa-chevron-right"></i>
                                 </div>
+                                <div class="news-item" onclick="openAnnouncement(4)">
+                                    <div class="news-date" style="background: #e3f2fd; color: #1565c0;"><span class="nd-day">22</span><span class="nd-month">DES</span></div>
+                                    <div class="news-content"><h5>Beasiswa Anak Berprestasi</h5><p>Bantuan pendidikan untuk putra/i karyawan.</p></div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
                             </div>
                         </div>
 
@@ -183,12 +188,60 @@
                     <div class="news-detail-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: var(--shadow);">
                         <span id="news-detail-date" style="font-size: 11px; background: #e3f2fd; color: #1565c0; padding: 5px 10px; border-radius: 10px; font-weight: 600;">Date</span>
                         <h2 id="news-detail-title" style="margin: 15px 0 20px; color: var(--earth-brown); font-size: 20px;">Title</h2>
-                        <div id="news-detail-body" style="font-size: 13px; color: #444; line-height: 1.6;">
-                            Content here...
-                        </div>
-                        <br>
-                        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                        <div id="news-detail-body" style="font-size: 13px; color: #444; line-height: 1.6;">Content...</div>
+                        <br><hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
                         <p style="font-size: 11px; color: #888;">Departemen Human Capital - PT Sido Muncul Tbk</p>
+                    </div>
+                </div>
+
+                <div id="inbox-detail-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('inbox')"></i><h3>Detail Pengajuan</h3></div>
+                    <div class="profile-detail-card">
+                        <div class="detail-header-green" style="text-align: left; display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h4 id="inbox-d-type">Jenis Pengajuan</h4>
+                                <span id="inbox-d-status" style="margin-left:0;">Status</span>
+                            </div>
+                            <div class="icon-box" style="background:white; color:var(--primary-green); width:40px; height:40px; font-size:16px;">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row" id="inbox-d-applicant-row">
+                            <label>Nama Pemohon</label>
+                            <h4 id="inbox-d-name">User</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Tanggal Pengajuan</label>
+                            <h4 id="inbox-d-date">12 Des 2025</h4>
+                        </div>
+                        
+                        <div id="inbox-d-lembur-area" class="hidden">
+                            <div class="detail-row">
+                                <label>Durasi Lembur</label>
+                                <h4 id="inbox-d-duration">2 Jam</h4>
+                            </div>
+                        </div>
+
+                        <div class="detail-row">
+                            <label>Keterangan / Alasan</label>
+                            <h4 id="inbox-d-reason" style="line-height:1.5;">-</h4>
+                        </div>
+                        
+                        <div id="inbox-d-reimburse-area" class="hidden">
+                            <div class="detail-row">
+                                <label>Nominal</label>
+                                <h4 id="inbox-d-amount" style="color:var(--primary-green); font-size:18px;">Rp 0</h4>
+                            </div>
+                            <div class="detail-row" style="border:none;">
+                                <label>Bukti Foto / Lampiran</label>
+                                <div id="inbox-d-img-container" style="margin-top:10px; width:100%; border-radius:10px; overflow:hidden; border:1px solid #eee;">
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div id="inbox-d-action-area" style="margin-top:20px;">
+                            </div>
                     </div>
                 </div>
 
@@ -263,8 +316,24 @@
                             <h4 id="detail-name">User</h4>
                         </div>
                         <div class="detail-row">
+                            <label>Nomor Induk Karyawan (NIK)</label>
+                            <h4>1995.0028.SM.PROD</h4>
+                        </div>
+                        <div class="detail-row">
                             <label>Jabatan</label>
                             <h4 id="detail-job">Supervisor</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Tempat, Tanggal Lahir</label>
+                            <h4>Semarang, 14 Agustus 1995</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Status Pernikahan</label>
+                            <h4>Belum Menikah</h4>
+                        </div>
+                        <div class="detail-row">
+                            <label>Kewarganegaraan</label>
+                            <h4>Indonesia</h4>
                         </div>
                          <div class="detail-row">
                             <label>Nomor Telepon</label>
@@ -288,21 +357,17 @@
                             <h4 id="job-detail-title">Supervisor Produksi</h4>
                             <span>Departemen Operasional</span>
                         </div>
-                        <div class="job-desc-list" id="job-desc-content">
+                        <div id="job-desc-content" style="padding-top:10px;">
                             </div>
                     </div>
                 </div>
 
                 <div id="edu-exp-view" class="view-section hidden fade-in">
                     <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('profile')"></i><h3>Riwayat Hidup</h3></div>
-                    
                     <h4 class="section-title">Pendidikan Terakhir</h4>
-                    <div class="timeline-container" id="edu-content">
-                         </div>
-
+                    <div class="timeline-container" id="edu-content"></div>
                     <h4 class="section-title">Pengalaman Kerja</h4>
-                    <div class="timeline-container" id="exp-content">
-                         </div>
+                    <div class="timeline-container" id="exp-content"></div>
                 </div>
 
                 <div id="cuti-view" class="view-section hidden fade-in">
@@ -338,7 +403,7 @@
                             <label>Detail Keterangan Klaim</label>
                             <input type="text" id="reimburse-other-input" class="input-field-modal" placeholder="Contoh: Parkir Client...">
                         </div>
-                        <div class="form-group"><label>Nominal (Rp)</label><input type="number" class="input-field-modal" placeholder="Contoh: 150000" required></div>
+                        <div class="form-group"><label>Nominal (Rp)</label><input type="number" id="reimburse-amount" class="input-field-modal" placeholder="Contoh: 150000" required></div>
                         <div class="form-group"><label>Bukti / Nota</label><div class="file-upload-box"><input type="file" id="file-upload" hidden onchange="updateFileName(this)"><label for="file-upload" class="upload-label" id="upload-label-text"><i class="fas fa-camera"></i><span>Ambil Foto / Upload File</span></label></div></div>
                         <button type="submit" class="btn-primary">Ajukan Reimburse</button>
                     </form>
@@ -365,8 +430,7 @@
                             <label style="font-size: 12px; color: #666;">Pilih Periode:</label>
                             <select id="slip-period" class="input-field-modal" style="width: auto; display: inline-block; margin-left: 10px;" onchange="updateSlipData()"><option value="dec">Desember 2025</option><option value="nov">November 2025</option></select>
                         </div>
-                        <div class="slip-details" id="slip-content">
-                            </div>
+                        <div class="slip-details" id="slip-content"></div>
                         <button class="btn-primary" onclick="downloadSlip()">Unduh PDF</button>
                     </div>
                 </div>
@@ -405,10 +469,10 @@
 
                 <div id="lembur-view" class="view-section hidden fade-in">
                     <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Form Lembur</h3></div>
-                    <form onsubmit="event.preventDefault(); submitForm('Lembur');">
-                        <div class="form-group"><label>Tanggal</label><input type="date" class="input-field-modal" required></div>
-                        <div class="form-group"><label>Durasi (Jam)</label><input type="number" class="input-field-modal" placeholder="2" required></div>
-                        <div class="form-group"><label>Alasan</label><textarea class="input-field-modal" rows="2"></textarea></div>
+                    <form onsubmit="event.preventDefault(); submitLembur();">
+                        <div class="form-group"><label>Tanggal</label><input type="date" id="lembur-date" class="input-field-modal" required></div>
+                        <div class="form-group"><label>Durasi (Jam)</label><input type="number" id="lembur-duration" class="input-field-modal" placeholder="2" required></div>
+                        <div class="form-group"><label>Alasan</label><textarea id="lembur-reason" class="input-field-modal" rows="2"></textarea></div>
                         <button type="submit" class="btn-primary">Ajukan Lembur</button>
                     </form>
                 </div>
@@ -455,4 +519,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
