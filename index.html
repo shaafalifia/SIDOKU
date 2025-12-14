@@ -136,19 +136,19 @@
 
                             <h4 class="section-title">Papan Pengumuman</h4>
                             <div class="news-feed">
-                                <div class="news-item">
+                                <div class="news-item" onclick="openAnnouncement(1)">
                                     <div class="news-date"><span class="nd-day">12</span><span class="nd-month">DES</span></div>
-                                    <div class="news-content"><h5>Pendaftaran Mudik Bareng 2026</h5><p>Segera daftarkan keluarga Anda via HR Portal.</p></div>
+                                    <div class="news-content"><h5>Pendaftaran Mudik Bareng 2026</h5><p>Segera daftarkan keluarga Anda.</p></div>
                                     <i class="fas fa-chevron-right"></i>
                                 </div>
-                                <div class="news-item">
+                                <div class="news-item" onclick="openAnnouncement(2)">
                                     <div class="news-date" style="background: #fff3e0; color: #f57c00;"><span class="nd-day">15</span><span class="nd-month">DES</span></div>
-                                    <div class="news-content"><h5>Maintenance Server</h5><p>Sistem down sementara pada jam 12:00 - 13:00.</p></div>
+                                    <div class="news-content"><h5>Maintenance Server</h5><p>Sistem down sementara.</p></div>
                                     <i class="fas fa-chevron-right"></i>
                                 </div>
-                                <div class="news-item">
+                                <div class="news-item" onclick="openAnnouncement(3)">
                                     <div class="news-date" style="background: #e8f5e9; color: #2e7d32;"><span class="nd-day">20</span><span class="nd-month">DES</span></div>
-                                    <div class="news-content"><h5>Gathering Akhir Tahun</h5><p>Wajib hadir untuk seluruh staff produksi.</p></div>
+                                    <div class="news-content"><h5>Gathering Akhir Tahun</h5><p>Wajib hadir untuk staff produksi.</p></div>
                                     <i class="fas fa-chevron-right"></i>
                                 </div>
                             </div>
@@ -170,11 +170,25 @@
                             <div class="herbal-card" style="margin-top:20px;">
                                 <div class="herbal-content">
                                     <div class="herbal-text"><h5>Produk Herbal</h5><p>Periode: Des 2025</p><span class="status-avail">Tersedia</span></div>
-                                    <img src="https://cdn1.katadata.co.id/media/images/thumb/2017/08/09/2017_08_09-19_42_38_905da475899ebac941049728b56f4503_620x413_thumb.jpg" alt="Produk" style="width: 50px; opacity: 0.9;">
+                                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw2k7p4hF2vQ6XGkP8yP9C6q9nF5t7sB4mL1zD8fJ0xH3wK5oN7rT9uV2yA4bE6cR8dG0lM3jO5iQ7wS9tF1xU3vH6nB8kL0mP4jR2oQ5yS7tU1wW3zE6xG9/s1600/SidoMuncul.png" alt="Produk" style="width: 50px; opacity: 0.9;">
                                 </div>
                                 <button class="redeem-btn" onclick="openModal('modal-qr')"><i class="fas fa-qrcode"></i> Tampilkan QR</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div id="news-detail-view" class="view-section hidden fade-in">
+                    <div class="page-header"><i class="fas fa-arrow-left" onclick="switchTab('home')"></i><h3>Detail Informasi</h3></div>
+                    <div class="news-detail-card" style="background: white; padding: 25px; border-radius: 20px; box-shadow: var(--shadow);">
+                        <span id="news-detail-date" style="font-size: 11px; background: #e3f2fd; color: #1565c0; padding: 5px 10px; border-radius: 10px; font-weight: 600;">Date</span>
+                        <h2 id="news-detail-title" style="margin: 15px 0 20px; color: var(--earth-brown); font-size: 20px;">Title</h2>
+                        <div id="news-detail-body" style="font-size: 13px; color: #444; line-height: 1.6;">
+                            Content here...
+                        </div>
+                        <br>
+                        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                        <p style="font-size: 11px; color: #888;">Departemen Human Capital - PT Sido Muncul Tbk</p>
                     </div>
                 </div>
 
@@ -207,7 +221,8 @@
                             <div class="profile-content-body">
                                 <div class="avatar-large-container">
                                     <div class="avatar-large"></div>
-                                    <div class="camera-icon"><i class="fas fa-camera"></i></div>
+                                    <input type="file" id="profile-upload" hidden accept="image/*" onchange="updateProfilePic(this)">
+                                    <label for="profile-upload" class="camera-icon"><i class="fas fa-camera"></i></label>
                                 </div>
                                 <h3 id="profile-name-display">Nama Karyawan</h3>
                                 <p id="job-title-display">Staff</p>
@@ -350,7 +365,8 @@
                             <label style="font-size: 12px; color: #666;">Pilih Periode:</label>
                             <select id="slip-period" class="input-field-modal" style="width: auto; display: inline-block; margin-left: 10px;" onchange="updateSlipData()"><option value="dec">Desember 2025</option><option value="nov">November 2025</option></select>
                         </div>
-                        <div class="slip-details" id="slip-content"><div class="row"><span>Gaji Pokok</span><b>Rp 5.200.000</b></div><div class="row"><span>Tunjangan</span><b>Rp 1.500.000</b></div><div class="row green"><span>Lembur</span><b>Rp 1.750.000</b></div><hr><div class="row total"><span>Total</span><b>Rp 8.450.000</b></div></div>
+                        <div class="slip-details" id="slip-content">
+                            </div>
                         <button class="btn-primary" onclick="downloadSlip()">Unduh PDF</button>
                     </div>
                 </div>
@@ -419,7 +435,7 @@
     <div id="modal-qr" class="modal hidden">
         <div class="modal-content center-align">
             <span class="close-btn" onclick="closeModal('modal-qr')">&times;</span>
-            <h3 style="color: var(--primary-green);">Scan Jatah Jamu dan Herbal</h3>
+            <h3 style="color: var(--primary-green);">Scan Jatah Jamu</h3>
             <div class="qr-placeholder"><i class="fas fa-qrcode" style="font-size: 100px; color: #333;"></i></div>
             <p style="margin-top:10px;">Tunjukkan ke petugas koperasi.</p>
         </div>
